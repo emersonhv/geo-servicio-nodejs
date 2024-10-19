@@ -9,7 +9,7 @@
     "start": "npm run build && node dist/app.js"
   },
   "author": "Emerson Herrera Vasquez",
-  "license": "MIT",
+  "license": "Creative Commons Non-Commercial (CC BY-NC)",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
