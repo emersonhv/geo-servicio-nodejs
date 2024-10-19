@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: postgis/postgis:16-3.4-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: sigdb
+      POSTGRES_PASSWORD: sig2024
+      POSTGRES_USER: sig
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  
+  db-cache:
+    container_name: db-cache
+    image: redis:7.4-rc2-alpine
+    restart: always
+    volumes:
+      - ./redis_data:/data
+    ports:
+      - 7001:6379
+  
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/api-geo-servicio
+    depends_on:
+      - nginx
+    
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
